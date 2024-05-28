@@ -123,6 +123,7 @@ srsran::unique_byte_buffer_t mux_nr::get_pdu(uint32_t max_pdu_len)
           if (lc.lcid == 0 && msg3_is_pending()) {
             // TODO:
             msg3_transmitted();
+            printf("[GAD] MSG 3 TX ...\n");
           }
 
         } else {

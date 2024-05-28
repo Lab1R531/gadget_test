@@ -178,7 +178,8 @@ void proc_ra_nr::ra_resource_selection()
 // 5.1.3 Random Access Preamble transmission
 void proc_ra_nr::ra_preamble_transmission()
 {
-  printf("SENDING PRACH\n");
+  printf("\n");
+  printf("[GAD] MSG 1 TX ...\n");
   uint32_t delta_preamble        = 0; // TODO calulate the delta preamble based on delta_preamble_db_table_nr
   preamble_received_target_power = rach_cfg.PreambleReceivedTargetPower + delta_preamble +
                                    (preamble_transmission_counter - 1) * rach_cfg.powerRampingStep +
@@ -191,9 +192,10 @@ void proc_ra_nr::ra_preamble_transmission()
   prach_send_timer.set(PRACH_SEND_CALLBACK_TIMEOUT, [this](uint32_t tid) { timer_expired(tid); });
   prach_send_timer.run();
   state = WAITING_FOR_PRACH_SENT;
+  printf("[GAD] STATE = WAITING_FOR_PRACH_SENT");
 }
 
-// 5.1.4 Random Access Preamble transmission
+// 5.1.4 Random Access Preamble reception
 void proc_ra_nr::ra_response_reception(const mac_interface_phy_nr::tb_action_dl_result_t& tb)
 {
   std::lock_guard<std::mutex> lock(mutex);
@@ -205,6 +207,7 @@ void proc_ra_nr::ra_response_reception(const mac_interface_phy_nr::tb_action_dl_
     return;
   }
 
+  printf("[GAD] MSG 2 RX ...\n");
   // Stop rar timer
   rar_timeout_timer.stop();
   if (tb.ack && tb.payload != nullptr) {
@@ -244,10 +247,15 @@ void proc_ra_nr::ra_response_reception(const mac_interface_phy_nr::tb_action_dl_
     }
   }
   logger.info("NTN: rach_cfg.ra_ContentionResolutionTimer: %u", rach_cfg.ra_ContentionResolutionTimer);
-  contention_resolution_timer.set(rach_cfg.ra_ContentionResolutionTimer + ntn_ra_contention_resolution_timer_increment + ntn_extended_rtt_ms, [this](uint32_t tid) { timer_expired(tid); }); // SW-MOD_A-50
+
+  uint32_t contention_resolution_timer_duration = rach_cfg.ra_ContentionResolutionTimer + ntn_ra_contention_resolution_timer_increment + ntn_extended_rtt_ms;
+  contention_resolution_timer.set(contention_resolution_timer_duration, [this](uint32_t tid) { timer_expired(tid); }); // SW-MOD_A-50
   contention_resolution_timer.run();
   logger.debug("Waiting for Contention Resolution");
   state = WAITING_FOR_CONTENTION_RESOLUTION;
+  printf("[GAD] STATE = WAITING_FOR_CONTENTION_RESOLUTION\n");
+  printf("[GAD] contention_resolution_timer_duration = %d\n", contention_resolution_timer_duration);
+
 }
 
 // TS 38.321 Section 5.1.5 2 ways to resolve contention resolution
@@ -269,6 +277,7 @@ void proc_ra_nr::ra_contention_resolution(bool received_con_res_matches_ue_id)
     }
     contention_resolution_timer.stop();
     state = WAITING_FOR_COMPLETION;
+    printf("[GAD] STATE = WAITING_FOR_COMPLETION\n");
     ra_completion();
   } else {
     logger.error("Not started by the correct initiator MAC or RRC");
@@ -362,13 +371,22 @@ void proc_ra_nr::prach_sent(uint32_t tti, uint32_t s_id, uint32_t t_id, uint32_t
                     tti);
     uint32_t rar_window_st = TTI_ADD(tti, 3) + ntn_ra_response_window_slot_start_increment + ntn_extended_rtt_slots; // SW-MOD_A-50
     // TODO check ra_response window (delayed start)? // last 3 check if needed when we have a delayed start
-    rar_timeout_timer.set(rach_cfg.ra_responseWindow + 3 + 10 + ntn_ra_response_window_timer_increment, [this](uint32_t tid) { timer_expired(tid); }); // SW-MOD_A-50
+    uint32_t rar_timeout_timer_duration = rach_cfg.ra_responseWindow + 3 + 10 + ntn_ra_response_window_timer_increment;
+    rar_timeout_timer.set(rar_timeout_timer_duration, [this](uint32_t tid) { timer_expired(tid); }); // SW-MOD_A-50
     rar_timeout_timer.run();
     // Wait for RAR reception
     ra_window_length = rach_cfg.ra_responseWindow + ntn_ra_response_window_slot_length_increment;
     ra_window_start  = rar_window_st; // SW-MOD_A-50
     logger.debug("Calculated ra_window_start=%d, ra_window_length=%d", ra_window_start, ra_window_length);
     state = WAITING_FOR_RESPONSE_RECEPTION;
+
+    printf("[GAD] rar_timeout_timer = %d\n", rar_timeout_timer_duration);
+    printf("[GAD] ra_window_start = %d\n", ra_window_start);
+    printf("[GAD] ra_window_stop = %d\n", ra_window_start + ra_window_length);
+    printf("[GAD] ra_window_length = %d\n", ra_window_length);
+
+    printf("[GAD] STATE = WAITING_FOR_RESPONSE_RECEPTION\n");
+
   });
 }
 

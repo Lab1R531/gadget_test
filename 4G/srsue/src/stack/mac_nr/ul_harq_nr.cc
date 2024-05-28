@@ -176,6 +176,7 @@ void ul_harq_entity_nr::ul_harq_process_nr::new_grant_ul(const mac_interface_phy
                                                          const bool&                                    ndi_toggled,
                                                          mac_interface_phy_nr::tb_action_ul_t*          action)
 {
+  printf("[GAD] new_grant_ul()\n");
   // Get maximum retransmissions
   uint32_t max_retx = harq_entity->harq_cfg.max_harq_tx;
 
