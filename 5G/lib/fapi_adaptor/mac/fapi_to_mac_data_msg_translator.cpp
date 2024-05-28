@@ -104,6 +104,9 @@ void fapi_to_mac_data_msg_translator::on_rx_data_indication(const fapi::rx_data_
     if (fapi_pdu.pdu_length == 0) {
       continue;
     }
+
+    printf("[GAD] MSG3 RX at sfn = %d, slot = %d \n", msg.sfn, msg.slot);
+    
     mac_rx_pdu& pdu = indication.pdus.emplace_back();
     pdu.harq_id     = fapi_pdu.harq_id;
     pdu.rnti        = fapi_pdu.rnti;

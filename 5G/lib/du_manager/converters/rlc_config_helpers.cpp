@@ -98,7 +98,7 @@ rlc_config srsran::srs_du::make_default_srb_rlc_config()
   // cfg.am.rx.t_reassembly      = 35; // srs default
   cfg.am.rx.t_reassembly      = read_t_reassembly_rlc_conf_env_var();
   // End of SW-MOD_A-40
-  cfg.am.rx.t_status_prohibit = 0;
+  cfg.am.rx.t_status_prohibit = 0; //[GAD] set to 2400?
   return cfg;
 }
 

@@ -82,6 +82,8 @@ pdu_rx_handler::pdu_rx_handler(mac_ul_ccch_notifier&       ccch_notifier_,
 
 bool pdu_rx_handler::handle_rx_pdu(slot_point sl_rx, du_cell_index_t cell_index, mac_rx_pdu pdu)
 {
+
+  printf("[GAD] [GOAL 2] pdu_rx_handler::handle_rx_pdu()\n");
   // > Store PCAP
   write_pcap_rx_pdu(sl_rx, pdu);
 

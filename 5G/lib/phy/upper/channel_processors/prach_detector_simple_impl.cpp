@@ -152,10 +152,16 @@ prach_detection_result prach_detector_simple_impl::detect(const prach_buffer& in
       delay_n = idft->get_size() - delay_n;
     }
 
-    // Skip if the delay could be due to the cyclic shift.
-    if (delay_n >= delay_n_maximum) {
+    // // Skip if the delay could be due to the cyclic shift.
+    // if (delay_n >= delay_n_maximum) {
+    //   continue;
+    // }
+
+    // [GAD] TODO Workaround to avoid discharging prach with prach configuration index >= 16 TODO FIX
+    if (delay_n >= 1000) { 
       continue;
     }
+
 
     prach_detection_result::preamble_indication& info = result.preambles.emplace_back();
     info.preamble_index                               = preamble_index;

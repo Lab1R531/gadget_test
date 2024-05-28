@@ -94,6 +94,7 @@ public:
   /// The PDUs contained in the Rx_Data.Indication are dispatched to different executors, depending on their RNTI.
   void handle_rx_data_indication(mac_rx_data_indication msg) override
   {
+    printf("[GAD] [4] handle_rx_data_indication()\n");
     for (mac_rx_pdu& pdu : msg.pdus) {
       // > Convert C-RNTI to DU-specific UE index.
       // Note: for Msg3, the UE context is not yet created, and ue_index will be an invalid index. This situation is

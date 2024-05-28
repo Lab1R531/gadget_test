@@ -517,13 +517,14 @@ asn1::rrc_nr::sib1_s make_asn1_rrc_cell_sib1(const du_cell_config& du_cfg)
   sib1.serving_cell_cfg_common         = make_asn1_rrc_cell_serving_cell_common(du_cfg);
 
   sib1.ue_timers_and_consts_present    = true;
-  sib1.ue_timers_and_consts.t300.value = ue_timers_and_consts_s::t300_opts::ms1000;
-  sib1.ue_timers_and_consts.t301.value = ue_timers_and_consts_s::t301_opts::ms1000;
-  sib1.ue_timers_and_consts.t310.value = ue_timers_and_consts_s::t310_opts::ms1000;
+  sib1.ue_timers_and_consts.t300.value = ue_timers_and_consts_s::t300_opts::ms2000;
+  sib1.ue_timers_and_consts.t301.value = ue_timers_and_consts_s::t301_opts::ms2000;
+  sib1.ue_timers_and_consts.t310.value = ue_timers_and_consts_s::t310_opts::ms2000;
   sib1.ue_timers_and_consts.n310.value = ue_timers_and_consts_s::n310_opts::n1;
   sib1.ue_timers_and_consts.t311.value = ue_timers_and_consts_s::t311_opts::ms30000;
   sib1.ue_timers_and_consts.n311.value = ue_timers_and_consts_s::n311_opts::n1;
-  sib1.ue_timers_and_consts.t319.value = ue_timers_and_consts_s::t319_opts::ms1000;
+  sib1.ue_timers_and_consts.t319.value = ue_timers_and_consts_s::t319_opts::ms2000;
+  
 
   return sib1;
 }

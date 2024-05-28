@@ -852,6 +852,7 @@ public:
     srsvec::bit_pack(data, pdu.dci.payload);
 
     if (logger.debug.enabled()) {
+      printf("[GAD] MSG 2 TX at sfn = %d, slot = %d \n", pdu.slot.sfn(), pdu.slot.slot_index());
       // Detailed log information, including a list of all PDU fields.
       logger.debug(data.get_buffer().data(),
                    divide_ceil(data.size(), 8),
@@ -932,13 +933,14 @@ public:
   {
     prach_detection_result result;
     const auto&&           func = [&]() { result = detector->detect(input, config); };
-
-    std::chrono::nanoseconds time_ns = time_execution(func);
-
+    
+    std::chrono::nanoseconds time_ns = time_execution(func);   
+    
     if (log_all_opportunities || !result.preambles.empty()) {
+      printf("[GAD] [GOAL 1] [MSG1 RX] (Preamble received) (prach_detection_result detect())\n");
       if (logger.debug.enabled()) {
         // Detailed log information, including a list of all PRACH config and result fields.
-        logger.debug("PRACH: {:s} {:s} {}\n  {:n}\n  {:n}\n", config, result, time_ns, config, result);
+        logger.debug("MSG1 RX - PRACH: {:s} {:s} {}\n  {:n}\n  {:n}\n", config, result, time_ns, config, result);
       } else {
         // Single line log entry.
         logger.info("PRACH: {:s} {:s} {}", config, result, time_ns);

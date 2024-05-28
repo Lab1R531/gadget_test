@@ -194,7 +194,6 @@ void ra_scheduler::handle_rach_indication(const rach_indication_message& msg)
 void ra_scheduler::handle_rach_indication_impl(const rach_indication_message& msg)
 {
   const static unsigned prach_duration = 1; // TODO: Take from config
-
   for (const auto& prach_occ : msg.occasions) {
     // As per Section 5.1.3, TS 38.321, and from Section 5.3.2, TS 38.211, slot_idx uses as the numerology of reference
     // 15kHz for long PRACH Formats (i.e, slot_idx = subframe index); whereas, for short PRACH formats, it uses the same
@@ -233,6 +232,12 @@ void ra_scheduler::handle_rach_indication_impl(const rach_indication_message& ms
       // FDD case.
       rar_req->rar_window = {rar_req->prach_slot_rx + prach_duration + ntn_ra_response_window_slot_start_increment, // SW-MOD_A-50
                              rar_req->prach_slot_rx + prach_duration + ntn_ra_response_window_slot_length_increment + ntn_extended_rtt_slots + ra_win_nof_slots}; // SW-MOD_A-50
+      uint16_t rar_window_start = rar_req->rar_window.start().to_uint();
+      uint16_t rar_window_stop = rar_req->rar_window.stop().to_uint();
+      uint16_t rar_window_lenght = rar_req->rar_window.length();
+
+      printf("[GAD] RAR Window:\nrar_window_start=%d\nrar_window_stop=%d\nrar_window_lenght=%d\n", rar_window_start, rar_window_stop, rar_window_lenght);
+      
     }
 
     for (const auto& prach_preamble : prach_occ.preambles) {
@@ -371,7 +376,6 @@ void ra_scheduler::run_slot(cell_resource_allocator& res_alloc)
 
   for (auto it = pending_rars.begin(); it != pending_rars.end();) {
     pending_rar_t& rar_req = *it;
-
     // In case of RAR being outside RAR window:
     // - if window has passed, discard RAR
     // - if window hasn't started, stop loop, as RARs are ordered by slot
@@ -423,6 +427,7 @@ void ra_scheduler::run_slot(cell_resource_allocator& res_alloc)
 
 unsigned ra_scheduler::schedule_rar(const pending_rar_t& rar, cell_resource_allocator& res_alloc)
 {
+  printf("[GAD] ra_scheduler::schedule_rar()\n");
   static const unsigned pdsch_time_res_index = 0;
 
   cell_slot_resource_allocator&       pdcch_alloc = res_alloc[0];
@@ -508,6 +513,8 @@ unsigned ra_scheduler::schedule_rar(const pending_rar_t& rar, cell_resource_allo
   }
 
   // Status: RAR allocation is successful.
+  printf("[GAD] Status: RAR allocation is successful...\n");
+   
 
   // > Fill RAR and Msg3 PDSCH, PUSCH and DCI.
   fill_rar_grant(res_alloc, rar, rar_crbs, msg3_candidates);
@@ -520,6 +527,8 @@ void ra_scheduler::fill_rar_grant(cell_resource_allocator&         res_alloc,
                                   crb_interval                     rar_crbs,
                                   span<const msg3_alloc_candidate> msg3_candidates)
 {
+
+  printf("[GAD] ra_scheduler::fill_rar_grant() start...\n");
   static const unsigned pdsch_time_res_index = 0;
 
   cell_slot_resource_allocator& pdcch_alloc = res_alloc[0];
@@ -589,6 +598,9 @@ void ra_scheduler::fill_rar_grant(cell_resource_allocator&         res_alloc,
     msg3_info.tpc                      = 1;
     msg3_info.csi_req                  = false;
 
+    // printf("[GAD] Add MAC SDU with UL grant (Msg3) in RAR PDU.\n");
+    // printf("[GAD] msg3_info.temp_crnti = %d = pending_msg3.preamble.tc_rnti = %d;\n", msg3_info.temp_crnti, pending_msg3.preamble.tc_rnti);
+
     // Allocate Msg3 RBs.
     const ofdm_symbol_range& symbols = get_pusch_cfg().pusch_td_alloc_list[msg3_candidate.pusch_td_res_index].symbols;
     msg3_alloc.ul_res_grid.fill(grant_info{get_dl_bwp_cfg().scs, symbols, msg3_candidate.crbs});
@@ -605,11 +617,14 @@ void ra_scheduler::fill_rar_grant(cell_resource_allocator&         res_alloc,
 
     // Store parameters used in HARQ.
     pending_msg3.harq.save_alloc_params(dci_ul_rnti_config_type::tc_rnti_f0_0, pusch.pusch_cfg);
+
   }
+  printf("[GAD] ra_scheduler::fill_rar_grant() ok.\n");
 }
 
 void ra_scheduler::schedule_msg3_retx(cell_resource_allocator& res_alloc, pending_msg3_t& msg3_ctx)
 {
+  printf("[GAD] ra_scheduler::schedule_msg3_retx() start...\n");
   cell_slot_resource_allocator&                           pdcch_alloc = res_alloc[0];
   const span<const pusch_time_domain_resource_allocation> pusch_tds =
       get_pusch_time_domain_resource_table(*cell_cfg.ul_cfg_common.init_ul_bwp.pusch_cfg_common);
@@ -708,6 +723,9 @@ void ra_scheduler::schedule_msg3_retx(cell_resource_allocator& res_alloc, pendin
     // successful allocation. Exit loop.
     break;
   }
+
+  printf("[GAD] ra_scheduler::schedule_msg3_retx() ok.\n");
+  
 }
 
 sch_prbs_tbs ra_scheduler::get_nof_pdsch_prbs_required(unsigned time_res_idx, unsigned nof_ul_grants) const

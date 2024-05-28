@@ -67,6 +67,7 @@ void ngap_impl::create_ngap_ue(ue_index_t                          ue_index,
   }
 
   logger.debug("ue={} Created UE (ran_ue_id={})", ue_index, ue->get_ran_ue_id());
+  printf("[GAD] created UE\n");
 }
 
 async_task<ng_setup_response> ngap_impl::handle_ng_setup_request(const ng_setup_request& request)
@@ -107,6 +108,9 @@ void ngap_impl::handle_initial_ue_message(const ngap_initial_ue_message& msg)
   // TODO: Add missing optional values
 
   logger.info("ue={} Sending InitialUeMessage (ran_ue_id={})", msg.ue_index, ue->get_ran_ue_id());
+
+  printf("[GAD] Sending InitialUeMessage\n");
+  
 
   // Forward message to AMF
   ngap_notifier.on_new_message(ngap_msg);
