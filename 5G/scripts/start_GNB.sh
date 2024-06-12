@@ -38,7 +38,6 @@ echo "Running gNB 5G NTN"
 #export T_REASSEMBLY_SRB1_CONF=35
 #export NTN_KOFFSET=0
 
-#################################################################
 
 #export NTN_KOFFSET="$rtt_ms"
 #export NTN_EXT_RTT_MS="$rtt_ms"
@@ -53,8 +52,46 @@ echo "Running gNB 5G NTN"
 #export NTN_KOFFSET=2000
 #export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT=520
 
-rtt_ms=0
+#export NTN_RA_RESPONSE_WINDOW_TIMER_INCREMENT=200
+#export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT=200
+#export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT=200
 
+
+#################################################################
+#################################################################
+#################################################################
+
+
+if [ "$#" -eq 0 ]; then
+    rtt_ms=0
+else
+    # Estrai il valore dall'argomento
+    rtt_ms=$(echo $1 | sed 's/^--//')
+fi
+
+title_length=30
+text="rtt_ms=$rtt_ms"
+padding=$(( (title_length - ${#text}) / 2 ))
+printf "\n\n          "
+printf "*%.0s" $(seq 1 $title_length)
+printf "**\n          *"
+printf " %.0s" $(seq 1 $padding)
+printf "$text"
+printf " %.0s" $(seq 1 $padding)
+printf "*\n          "
+printf "*%.0s" $(seq 1 $title_length)
+printf "**\n\n"
+
+
+# Inizializza la variabile x con il valore estratto o di default
+x=$rtt_ms
+y=$(echo "$rtt_ms / 2" | bc)
+
+
+
+export NTN_KOFFSET="$x"
+export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
+export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
 
 sudo -E ../build/apps/gnb/gnb -c gnb_config.yaml
 

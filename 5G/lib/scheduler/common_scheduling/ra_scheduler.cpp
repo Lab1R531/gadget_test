@@ -236,7 +236,9 @@ void ra_scheduler::handle_rach_indication_impl(const rach_indication_message& ms
       uint16_t rar_window_stop = rar_req->rar_window.stop().to_uint();
       uint16_t rar_window_lenght = rar_req->rar_window.length();
 
-      printf("[GAD] RAR Window:\nrar_window_start=%d\nrar_window_stop=%d\nrar_window_lenght=%d\n", rar_window_start, rar_window_stop, rar_window_lenght);
+      printf("[GAD] rar_window_start = %d\n", rar_window_start);
+      printf("[GAD] rar_window_stop = %d\n", rar_window_stop);
+      printf("[GAD] rar_window_lenght = %d\n",rar_window_lenght);
       
     }
 
@@ -299,10 +301,13 @@ void ra_scheduler::handle_pending_crc_indications_impl(cell_resource_allocator& 
       pending_msg3.harq.crc_info(crc.tb_crc_success);
     }
   }
-
   // Allocate pending Msg3 retransmissions.
   for (auto& pending_msg3 : pending_msg3s) {
+    // printf("[GAD] pending_msg3.preamble.preamble_id = %d\n", pending_msg3.preamble.preamble_id);
     if (not pending_msg3.harq.empty()) {
+      // printf("[GAD] HARQ NOT EMPTY\n");
+      // printf("[GAD] res_alloc.slot_tx() = %d\n", res_alloc.slot_tx().to_uint());
+      // printf("[GAD] pending_msg3.harq.has_pending_retx() = %d\n", pending_msg3.harq.has_pending_retx());
       pending_msg3.harq.slot_indication(res_alloc.slot_tx());
       if (pending_msg3.harq.has_pending_retx()) {
         schedule_msg3_retx(res_alloc, pending_msg3);

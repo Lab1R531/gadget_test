@@ -14,6 +14,7 @@ extern uint16_t NTN_KOFFSET;
 // define ADJUST_T_POLL_RETX_FOR_KOFFSET(x) (4000)
 // define ADJUST_T_POLL_RETX_ENUM_FOR_KOFFSET(x) (t_poll_retx_opts::ms4000)
 
+
 #define ADJUST_T_POLL_RETX_FOR_KOFFSET(x) ( \
         (NTN_KOFFSET <= 40) ? 45 : \
         (NTN_KOFFSET <= 95) ? 100 :  \

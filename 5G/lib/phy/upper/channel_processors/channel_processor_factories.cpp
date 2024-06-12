@@ -852,7 +852,6 @@ public:
     srsvec::bit_pack(data, pdu.dci.payload);
 
     if (logger.debug.enabled()) {
-      printf("[GAD] MSG 2 TX at sfn = %d, slot = %d \n", pdu.slot.sfn(), pdu.slot.slot_index());
       // Detailed log information, including a list of all PDU fields.
       logger.debug(data.get_buffer().data(),
                    divide_ceil(data.size(), 8),
@@ -896,7 +895,8 @@ public:
     }
 
     std::chrono::nanoseconds time_ns = time_execution(func);
-
+    
+    printf("[GAD] MSG 2/4 TX at tti = %d\n", pdu.slot.to_uint());
     if (logger.debug.enabled()) {
       // Detailed log information, including a list of all PDU fields.
       logger.debug(data.front().data(),
@@ -937,7 +937,6 @@ public:
     std::chrono::nanoseconds time_ns = time_execution(func);   
     
     if (log_all_opportunities || !result.preambles.empty()) {
-      printf("[GAD] [GOAL 1] [MSG1 RX] (Preamble received) (prach_detection_result detect())\n");
       if (logger.debug.enabled()) {
         // Detailed log information, including a list of all PRACH config and result fields.
         logger.debug("MSG1 RX - PRACH: {:s} {:s} {}\n  {:n}\n  {:n}\n", config, result, time_ns, config, result);
@@ -1100,6 +1099,7 @@ public:
 
   void process(resource_grid_writer& grid, const pdu_t& pdu) override
   {
+    printf("[GAD] SSB Processor.\n");
     const auto&& func = [&]() { processor->process(grid, pdu); };
 
     std::chrono::nanoseconds time_ns = time_execution(func);

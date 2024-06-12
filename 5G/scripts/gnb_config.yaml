@@ -121,7 +121,7 @@ cell_cfg:
   pdcch:
     ss_type: common                                            # Set search space to common to match capabilities
   prach: 
-    prach_config_index: 27
+    prach_config_index: 26
     zero_correlation_zone: 0
     max_msg3_harq_retx: 0
 #  pdsch:

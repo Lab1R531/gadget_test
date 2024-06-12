@@ -105,7 +105,7 @@ void fapi_to_mac_data_msg_translator::on_rx_data_indication(const fapi::rx_data_
       continue;
     }
 
-    printf("[GAD] MSG3 RX at sfn = %d, slot = %d \n", msg.sfn, msg.slot);
+    printf("[GAD] MSG 3 RX at sfn = %d, slot = %d \n", msg.sfn, msg.slot);
     
     mac_rx_pdu& pdu = indication.pdus.emplace_back();
     pdu.harq_id     = fapi_pdu.harq_id;
@@ -322,6 +322,8 @@ static float to_prach_preamble_snr_dB(int fapi_snr)
 
 void fapi_to_mac_data_msg_translator::on_rach_indication(const fapi::rach_indication_message& msg)
 {
+  printf("\n");
+  printf("[GAD] MSG 1 RX at sfn = %d slot = %d \n", msg.sfn, msg.slot);
   mac_rach_indication indication;
   indication.slot_rx = slot_point(scs, msg.sfn, msg.slot);
   for (const auto& pdu : msg.pdus) {

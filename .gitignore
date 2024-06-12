@@ -2,3 +2,8 @@
 4G/scripts/log
 5G/build
 5G/scripts/log
+changes.diff
+5G/scripts/reports/core_network_report.png
+5G/scripts/reports/gnb_shell_report.png
+5G/scripts/reports/RACH-Procedure_SIMPLE.png
+5G/scripts/reports/RACH-Procedure.png
