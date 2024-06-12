@@ -11,9 +11,9 @@ echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_gover
 
 echo "Running UE 5G NTN.."
 
-Tc=$(bc <<< "scale=4; 10^9/(480000*4096)")
-Ts=$(bc <<< "scale=4; 64*$Tc")
-Tm=$(bc <<< "scale=4; 8*$Tc")
+#Tc=$(bc <<< "scale=4; 10^9/(480000*4096)")
+#Ts=$(bc <<< "scale=4; 64*$Tc")
+#Tm=$(bc <<< "scale=4; 8*$Tc")
 
 ## UTILIZZATI ##
 #export NTN_N_TA_COMMON=0
@@ -85,14 +85,24 @@ printf "**\n\n"
 
 # Inizializza la variabile x con il valore estratto o di default
 x=$rtt_ms
-y=$(echo "$x / 2" | bc)
+y=$(echo "$rtt_ms / 2" | bc)
+z=$(echo "$rtt_ms * 30720" | bc)
+export NTN_RTT_MS="$x"
 
+
+# MSG 2 RX Window
 export NTN_RA_RESPONSE_WINDOW_TIMER_INCREMENT="$x"
 export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
 export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
 
+# MSG 4 RX Window
+export NTN_RA_CONTENTION_RESOLUTION_TIMER_INCREMENT="$x"
 
-#export NTN_RA_CONTENTION_RESOLUTION_TIMER_INCREMENT=1520
+export NTN_N_TA_COMMON=19646365
+
+
+#export NTN_T_REORDERING_TIMER_INCREMENT="$x"
+#export NTN_KOFFSET="$x"
 
 
 

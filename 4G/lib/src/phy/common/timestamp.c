@@ -21,6 +21,7 @@
 
 #include "srsran/phy/common/timestamp.h"
 #include "math.h"
+#include <stdio.h>
 
 int srsran_timestamp_init(srsran_timestamp_t* t, time_t full_secs, double frac_secs)
 {

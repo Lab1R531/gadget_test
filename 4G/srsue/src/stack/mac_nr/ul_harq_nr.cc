@@ -176,7 +176,7 @@ void ul_harq_entity_nr::ul_harq_process_nr::new_grant_ul(const mac_interface_phy
                                                          const bool&                                    ndi_toggled,
                                                          mac_interface_phy_nr::tb_action_ul_t*          action)
 {
-  printf("[GAD] new_grant_ul()\n");
+  // printf("[GAD] new_grant_ul()\n");
   // Get maximum retransmissions
   uint32_t max_retx = harq_entity->harq_cfg.max_harq_tx;
 
@@ -202,8 +202,10 @@ void ul_harq_entity_nr::ul_harq_process_nr::new_grant_ul(const mac_interface_phy
     // generate new PDU (Msg3 or normal UL)
     harq_buffer = harq_entity->mux->get_pdu(grant.tbs);
 
+    // printf("[GAD] generate_new_tx(grant, action);\n");
     // 3> if a MAC PDU to transmit has been obtained
     if (harq_buffer != nullptr) {
+      // printf("[GAD] generate_new_tx(grant, action) --- > harq_buffer != nullptr;\n");
       // 4> deliver the MAC PDU
       // 4> instruct the identified HARQ process to trigger a new transmission;
       generate_new_tx(grant, action);
@@ -219,7 +221,8 @@ void ul_harq_entity_nr::ul_harq_process_nr::new_grant_ul(const mac_interface_phy
       logger.info("UL %d:  HARQ buffer empty. Ignoring grant.", pid);
       return;
     }
-
+    printf("[GAD] generate_retx(grant, action);\n");
+    
     // 4> instruct the identified HARQ process to trigger a retransmission;
     generate_retx(grant, action);
 
@@ -251,6 +254,7 @@ void ul_harq_entity_nr::ul_harq_process_nr::save_grant(const mac_interface_phy_n
 void ul_harq_entity_nr::ul_harq_process_nr::generate_new_tx(const mac_interface_phy_nr::mac_nr_grant_ul_t& grant,
                                                             mac_interface_phy_nr::tb_action_ul_t*          action)
 {
+  // printf("[GAD] MSG 3 TX (generate_new_tx())\n");
   save_grant(grant);
   nof_retx      = 0;
 

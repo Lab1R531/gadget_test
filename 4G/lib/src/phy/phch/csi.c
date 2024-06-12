@@ -47,6 +47,7 @@ static bool csi_report_trigger(const srsran_csi_hl_report_cfg_t* cfg, uint32_t s
     case SRSRAN_CSI_REPORT_TYPE_PERIODIC:
       adjust = cfg->periodic.offset + NTN_KOFFSET;
       return (slot_idx >= adjust) ? ((slot_idx - adjust) % cfg->periodic.period == 0) : false;
+      // return (slot_idx >= adjust) ? ((slot_idx - adjust + cfg->periodic.period) % cfg->periodic.period == 0) : false; //[GAD] cfg->periodic.period missing
     default:; // Do nothing
   }
   return false;

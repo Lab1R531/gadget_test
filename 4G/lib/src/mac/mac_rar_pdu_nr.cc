@@ -52,6 +52,7 @@ bool mac_rar_subpdu_nr::read_subpdu(const uint8_t* ptr)
         }
         // TA is first 7 bits of 1st + 5 bits of 2nd octet
         ta = (uint16_t)(((*(rar + 0) & 0x7f) << 5 | ((*(rar + 1) & 0xf8) >> 3)));
+        // printf("[GAD] [MAC] RAR PDU -- timing advance = %d\n", ta);
         // Extract the first 3 bits of the UL grant from the 2nd octet
         ul_grant.at(0) = *(rar + 1) & 0x4 ? 1 : 0;
         ul_grant.at(1) = *(rar + 1) & 0x2 ? 1 : 0;

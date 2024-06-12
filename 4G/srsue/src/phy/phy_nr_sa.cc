@@ -261,7 +261,6 @@ bool phy_nr_sa::set_config(const srsran::phy_cfg_nr_t& cfg)
 {
   // Stash NR configuration
   config_nr = cfg;
-
   // Setup carrier configuration asynchronously
   cmd_worker.add_cmd([this]() {
     // Set UE configuration

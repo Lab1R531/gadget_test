@@ -362,6 +362,7 @@ void mac_nr::tb_decoded(const uint32_t cc_idx, const mac_nr_grant_dl_t& grant, t
 
   // If proc ra is in contention resolution (RA connection request procedure)
   if (proc_ra.is_contention_resolution() && grant.rnti == rntis.get_temp_rnti()) {
+    printf("[GAD] MSG 4 RX at grant.tti = %d\n", grant.tti);
     proc_ra.received_contention_resolution(contention_res_successful);
   }
 }

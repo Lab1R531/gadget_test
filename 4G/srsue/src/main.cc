@@ -724,6 +724,7 @@ static void signal_handler()
 
 // SW-MOD_A-30, SW-MOD_A-50
 
+extern unsigned int ntn_rtt_ms;                                   // [GAD] Total delay
 extern unsigned int ntn_n_ta_common;                              // SW-MOD_A-30
 extern unsigned int ntn_n_ta_ue_specific;                         // SW-MOD_A-30
 extern unsigned int ntn_extended_rtt_ms;                          // SW-MOD_A-50
@@ -749,6 +750,7 @@ void read_ntn_env_params(void) {
     printf("NTN: Setting %s to value %u\n", name, var); \
   } while (0);
 
+  GET_VAR_FROM_ENV("NTN_RTT_MS", ntn_rtt_ms, 0);                      // [GAD] Total delay
   GET_VAR_FROM_ENV("NTN_N_TA_COMMON", ntn_n_ta_common, 0);            // SW-MOD_A-30
   GET_VAR_FROM_ENV("NTN_N_TA_UE_SPECIFIC", ntn_n_ta_ue_specific, 0);  // SW-MOD_A-30
 

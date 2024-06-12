@@ -360,7 +360,6 @@ void ul_harq_entity::ul_harq_process::generate_new_tx(mac_interface_phy_lte::mac
                                                       mac_interface_phy_lte::tb_action_ul_t* action)
 {
 
-  printf("[GAD] MSG 3 TX generate_new_tx()\n");
   // Compute average number of retransmissions per packet considering previous packet
   harq_entity->average_retx.store(SRSRAN_VEC_CMA((float)current_tx_nb,
                                                  harq_entity->average_retx.load(std::memory_order_relaxed),

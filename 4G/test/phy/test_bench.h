@@ -131,7 +131,7 @@ public:
 
     // Wait for PHY to initialise
     ue_phy.wait_initialize();
-
+    
     // Set UE configuration
     if (not ue_phy.set_config(args.phy_cfg)) {
       return;

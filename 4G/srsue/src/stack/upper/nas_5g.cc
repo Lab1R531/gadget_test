@@ -1349,7 +1349,7 @@ int nas_5g::add_pdu_session(uint16_t                      pdu_session_id,
                 pdu_address.ipv4.data()[2],
                 pdu_address.ipv4.data()[3]);
 
-    srsran::console("PDU Session Establishment successful. IP: %u.%u.%u.%u\n",
+    srsran::console("\n\n\n             PDU Session Establishment successful. IP: %u.%u.%u.%u\n\n\n\n",
                     pdu_address.ipv4.data()[0],
                     pdu_address.ipv4.data()[1],
                     pdu_address.ipv4.data()[2],

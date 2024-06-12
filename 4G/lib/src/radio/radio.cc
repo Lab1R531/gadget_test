@@ -979,7 +979,7 @@ double radio::get_dev_cal_tx_adv_sec(const std::string& device_name)
     }
   } else {
     nsamples = tx_adv_nsamples;
-    srsran::console("Setting manual TX/RX offset to %d samples\n", nsamples);
+    srsran::console("Setting manual TX/RX offset to %d samples and cur_tx_rate = %f\n", nsamples, cur_tx_srate);
   }
 
   // Calculate TX advance in seconds from samples and sampling rate

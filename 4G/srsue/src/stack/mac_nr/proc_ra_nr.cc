@@ -24,6 +24,7 @@
 #include "srsran/mac/mac_rar_pdu_nr.h"
 #include "srsue/hdr/stack/mac_nr/mac_nr.h"
 
+extern uint32_t ntn_rtt_ms;                                   // [GAD] Total delay
 extern uint32_t ntn_extended_rtt_ms;                          // SW-MOD_A-50
 extern uint32_t ntn_extended_rtt_slots;                       // SW-MOD_A-50
 extern uint32_t ntn_ra_response_window_timer_increment;       // SW-MOD_A-50
@@ -192,7 +193,7 @@ void proc_ra_nr::ra_preamble_transmission()
   prach_send_timer.set(PRACH_SEND_CALLBACK_TIMEOUT, [this](uint32_t tid) { timer_expired(tid); });
   prach_send_timer.run();
   state = WAITING_FOR_PRACH_SENT;
-  printf("[GAD] STATE = WAITING_FOR_PRACH_SENT");
+  printf("[GAD] STATE = WAITING_FOR_PRACH_SENT\n");
 }
 
 // 5.1.4 Random Access Preamble reception
@@ -228,9 +229,11 @@ void proc_ra_nr::ra_response_reception(const mac_interface_phy_nr::tb_action_dl_
 
         // Set Temporary-C-RNTI if provided, otherwise C-RNTI is ok
         phy->set_rar_grant(tb.rx_slot_idx, subpdu.get_ul_grant(), subpdu.get_temp_crnti(), srsran_rnti_type_ra);
-
+        printf("[GAD] MSG 2 RX at slot = %d\n", tb.rx_slot_idx);
         // Apply TA CMD
         current_ta = subpdu.get_ta();
+        // printf("[GAD] Applying Timing Advance on [PHY] -- current ta  = %d\n", current_ta);
+      
         phy->set_timeadv_rar(tb.rx_slot_idx, current_ta);
 
         // reset all parameters that are used before rar
@@ -254,8 +257,11 @@ void proc_ra_nr::ra_response_reception(const mac_interface_phy_nr::tb_action_dl_
   logger.debug("Waiting for Contention Resolution");
   state = WAITING_FOR_CONTENTION_RESOLUTION;
   printf("[GAD] STATE = WAITING_FOR_CONTENTION_RESOLUTION\n");
-  printf("[GAD] contention_resolution_timer_duration = %d\n", contention_resolution_timer_duration);
-
+  printf("\n");
+  printf("///////////////////////// CR Window Settings ///////////////////////\n");
+  printf("/ contention_resolution_timer_duration = %d                       /\n", contention_resolution_timer_duration);
+  printf("////////////////////////////////////////////////////////////////////\n\n");
+  
 }
 
 // TS 38.321 Section 5.1.5 2 ways to resolve contention resolution
@@ -299,6 +305,15 @@ void proc_ra_nr::ra_completion()
     mac.set_crnti_to_temp();
     mac.set_temp_crnti(SRSRAN_INVALID_RNTI);
   }
+  
+  // printf("prach_send_timer.is_expired() = %d \n", prach_send_timer.is_expired());
+
+  // printf("rar_timeout_timer.is_expired() = %d \n", rar_timeout_timer.is_expired());
+
+  // printf("contention_resolution_timer.is_expired() = %d \n", contention_resolution_timer.is_expired());
+
+  // printf("backoff_timer.is_expired() = %d \n", backoff_timer.is_expired());
+
 
   srsran::console("Random Access Complete.     c-rnti=0x%x, ta=%d\n", mac.get_crnti(), current_ta);
   logger.info("Random Access Complete.     c-rnti=0x%x, ta=%d", mac.get_crnti(), current_ta);
@@ -364,7 +379,8 @@ void proc_ra_nr::prach_sent(uint32_t tti, uint32_t s_id, uint32_t t_id, uint32_t
         t_id,
         f_id,
         ul_carrier_id);
-    srsran::console("Random Access Transmission: prach_occasion=%d, preamble_index=%d, ra-rnti=0x%x, tti=%d\n",
+    uint32_t gnb_tti = tti + ntn_rtt_ms;
+    srsran::console("Random Access Transmission: prach_occasion=%d, preamble_index=%d, ra-rnti=0x%x, tti=%d (xxx)\n",
                     prach_occasion,
                     preamble_index,
                     rar_rnti,
@@ -380,11 +396,14 @@ void proc_ra_nr::prach_sent(uint32_t tti, uint32_t s_id, uint32_t t_id, uint32_t
     logger.debug("Calculated ra_window_start=%d, ra_window_length=%d", ra_window_start, ra_window_length);
     state = WAITING_FOR_RESPONSE_RECEPTION;
 
-    printf("[GAD] rar_timeout_timer = %d\n", rar_timeout_timer_duration);
-    printf("[GAD] ra_window_start = %d\n", ra_window_start);
-    printf("[GAD] ra_window_stop = %d\n", ra_window_start + ra_window_length);
-    printf("[GAD] ra_window_length = %d\n", ra_window_length);
 
+    printf("\n");
+    printf("//////////////////////// RAR Window Settings ////////////////////////\n");
+    printf("/ rar_timeout_timer = %d                                           /\n", rar_timeout_timer_duration);
+    printf("/ ra_window_start = %d                                            /\n", ra_window_start);
+    printf("/ ra_window_stop = %d                                             /\n", ra_window_start + ra_window_length);
+    printf("/ ra_window_length = %d                                            /\n", ra_window_length);
+    printf("/////////////////////////////////////////////////////////////////////\n\n");
     printf("[GAD] STATE = WAITING_FOR_RESPONSE_RECEPTION\n");
 
   });
