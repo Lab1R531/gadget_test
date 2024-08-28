@@ -94,6 +94,7 @@ int srsran_pbch_msg_nr_mib_unpack(const srsran_pbch_msg_nr_t* pbch_msg, srsran_m
   }
 
   // Copy PBCH message context
+  // mib->sfn        = pbch_msg->sfn_4lsb + 28; //[GAD] TODO REMOVEEEEE!!!! (SFN MIB)
   mib->sfn        = pbch_msg->sfn_4lsb;
   mib->ssb_idx    = pbch_msg->ssb_idx;
   mib->hrf        = pbch_msg->hrf;
@@ -110,6 +111,9 @@ int srsran_pbch_msg_nr_mib_unpack(const srsran_pbch_msg_nr_t* pbch_msg, srsran_m
 
   // systemFrameNumber - 6 bits MSB
   mib->sfn |= srsran_bit_pack(&y, 6) << 4U;
+  
+  // mib->sfn = (mib->sfn + 28) % 1024;
+  //printf("mib->sfn NEW = %d\n", mib->sfn);
 
   // subCarrierSpacingCommon - 1 bit
   mib->scs_common = *(y++) == 0 ? srsran_subcarrier_spacing_15kHz : srsran_subcarrier_spacing_30kHz;

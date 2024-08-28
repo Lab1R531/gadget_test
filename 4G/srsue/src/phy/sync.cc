@@ -433,6 +433,7 @@ void sync::run_cell_search_state()
 
 void sync::run_sfn_sync_state()
 {
+  printf("2 - run_sfn_sync_state \n\n\n");
   srsran_cell_t old_cell = cell.get();
   switch (sfn_p.run_subframe(&old_cell, &tti, mib)) {
     case sfn_sync::SFN_FOUND:
@@ -459,6 +460,7 @@ void sync::run_camping_in_sync_state(lte::sf_worker*      lte_worker,
                                      nr::sf_worker*       nr_worker,
                                      srsran::rf_buffer_t& sync_buffer)
 {
+  printf("1.1 - run_camping_in_sync_state \n\n\n");
   // Update logging TTI
   phy_lib_logger.set_context(tti);
   phy_logger.set_context(tti);
@@ -589,6 +591,7 @@ void sync::run_camping_in_sync_state(lte::sf_worker*      lte_worker,
 }
 void sync::run_camping_state()
 {
+  printf("1 - run_camping_state \n\n\n");
   lte::sf_worker*     lte_worker  = lte_worker_pool->wait_worker(tti);
   srsran::rf_buffer_t sync_buffer = {};
 
@@ -683,6 +686,7 @@ void sync::run_idle_state()
 
 void sync::run_thread()
 {
+  printf("0 - run_thread \n\n\n");
   while (running.load(std::memory_order_relaxed)) {
     phy_lib_logger.set_context(tti);
 

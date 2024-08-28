@@ -82,6 +82,7 @@ sfn_sync::ret_code sfn_sync::run_subframe(srsran_cell_t*                        
                                           std::array<uint8_t, SRSRAN_BCH_PAYLOAD_LEN>& bch_payload,
                                           bool                                         sfidx_only)
 {
+  printf("2.1 - run_subframe \n\n\n");
   int ret = srsran_ue_sync_zerocopy(ue_sync, mib_buffer.to_cf_t(), buffer_max_samples);
   if (ret < 0) {
     Error("SYNC:  Error calling ue_sync_get_buffer.");
@@ -112,6 +113,7 @@ sfn_sync::ret_code sfn_sync::decode_mib(srsran_cell_t*                          
                                         std::array<uint8_t, SRSRAN_BCH_PAYLOAD_LEN>& bch_payload,
                                         bool                                         sfidx_only)
 {
+  printf("2.1.1 - decode_mib \n\n\n");
   // If external buffer provided not equal to internal buffer, copy samples from channel/port 0
   if (ext_buffer != nullptr) {
     memcpy(mib_buffer.get(0), ext_buffer->get(0), sizeof(cf_t) * ue_sync->sf_len);

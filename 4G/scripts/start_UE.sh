@@ -87,6 +87,7 @@ printf "**\n\n"
 x=$rtt_ms
 y=$(echo "$rtt_ms / 2" | bc)
 z=$(echo "$rtt_ms * 30720" | bc)
+w=$(echo "$rtt_ms * 30720 / 2" | bc)
 export NTN_RTT_MS="$x"
 
 
@@ -98,13 +99,14 @@ export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
 # MSG 4 RX Window
 export NTN_RA_CONTENTION_RESOLUTION_TIMER_INCREMENT="$x"
 
-export NTN_N_TA_COMMON=19646365
+# TA COMMON SET
+#export NTN_N_TA_COMMON="$z"
 
 
-#export NTN_T_REORDERING_TIMER_INCREMENT="$x"
-#export NTN_KOFFSET="$x"
+#export NTN_T_REORDERING_TIMER_INCREMENT=2200
 
 
 
 sudo -E ../build/srsue/src/srsue ue_config.conf
+#sudo -E /home/gadget1/Downloads/gadget_test/4G/build/srsue/src/srsue ue_config.conf
        
