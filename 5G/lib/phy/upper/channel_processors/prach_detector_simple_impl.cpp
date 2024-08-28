@@ -69,6 +69,7 @@ prach_detection_result prach_detector_simple_impl::detect(const prach_buffer& in
   // If the cyclic shift is not zero...
   if (N_cs != 0) {
     unsigned max_delay_N_cs = (N_cs * idft->get_size()) / preamble_info.sequence_length;
+    printf("max_delay_N_cs = %d\n",max_delay_N_cs);
 
     phy_time_unit N_cs_time =
         phy_time_unit::from_seconds(static_cast<double>(max_delay_N_cs) / static_cast<double>(sampling_rate_Hz));
@@ -169,7 +170,11 @@ prach_detection_result prach_detector_simple_impl::detect(const prach_buffer& in
         phy_time_unit::from_seconds(sign * static_cast<double>(delay_n) / static_cast<double>(sampling_rate_Hz));
     info.power_dB = convert_power_to_dB(max_power);
     info.snr_dB   = 0.0F;
+
+    printf("delay_n = %d, delay_n_maximum = %d, correlation size = %ld\n", delay_n, delay_n_maximum, correlation.size());
+
   }
+
 
   return result;
 }

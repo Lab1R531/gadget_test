@@ -52,7 +52,10 @@ void ssb_processor_impl::process(resource_grid_writer& grid, const pdu_t& pdu)
   pbch_msg.payload                  = pdu.bch_payload;
   pbch_msg.sfn                      = pdu.slot.sfn();
   pbch_msg.k_ssb                    = pdu.subcarrier_offset;
-
+  
+  // printf("PBCH message generation\n");
+  // printf("pbch_msg.sfn = %d\n", pbch_msg.sfn);
+  
   // Encode PBCH
   std::array<uint8_t, pbch_encoder::E> encoded_bits;
   encoder->encode(encoded_bits, pbch_msg);

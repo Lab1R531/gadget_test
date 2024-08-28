@@ -32,7 +32,7 @@ static uint32_t fill_phy_timing_info_in_bch_payload(const fapi::dl_ssb_pdu& fapi
 {
   // Move the BCH payload to the MSB.
   uint32_t payload = fapi_pdu.bch_payload.bch_payload << 8U;
-
+  
   // Add the SFN.
   payload |= ((sfn & 0xfU) << 4U);
 
@@ -169,6 +169,11 @@ void srsran::fapi_adaptor::convert_ssb_fapi_to_phy(ssb_processor::pdu_t&   proc_
   proc_pdu.offset_to_pointA  = fapi_pdu.ssb_offset_pointA;
   proc_pdu.pattern_case      = fapi_pdu.ssb_maintenance_v3.case_type;
   proc_pdu.common_scs        = scs_common;
+
+
+  // printf("[GAD] fill_bch_payload SFN = %d\n", sfn);
+  // sfn = sfn + 26;  // [GAD] REMOVEEEE !!!! TODO IMPORTANT 
+  // printf("[GAD] fill_bch_payload SFN = %d\n", sfn);
 
   // Fill in the BCH payload.
   fill_bch_payload(proc_pdu.bch_payload, fapi_pdu, sfn, proc_pdu.slot.is_odd_hrf(), scs_common);
