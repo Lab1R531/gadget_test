@@ -315,7 +315,8 @@ void proc_ra_nr::ra_completion()
   // printf("backoff_timer.is_expired() = %d \n", backoff_timer.is_expired());
 
 
-  srsran::console("Random Access Complete.     c-rnti=0x%x, ta=%d\n", mac.get_crnti(), current_ta);
+  //srsran::console("Random Access Complete.     c-rnti=0x%x, ta=%d\n", mac.get_crnti(), current_ta); //[QR]
+  srsran::console("Random Access Complete.     c-rnti=0x%x\n", mac.get_crnti());
   logger.info("Random Access Complete.     c-rnti=0x%x, ta=%d", mac.get_crnti(), current_ta);
 
   mac.rrc_ra_completed();

@@ -737,7 +737,7 @@ extern unsigned int ntn_t_reassembly_timer_increment;             // SW-MOD_A-50
 extern unsigned int ntn_discard_timer_increment;                  // SW-MOD_A-50
 extern unsigned int ntn_t_reordering_timer_increment;             // SW-MOD_A-50
 
-void read_ntn_env_params(void) {
+void read_ntn_env_params(void) {// [QR]
 
 #define GET_VAR_FROM_ENV(name, var, default_value) \
   do { \
@@ -747,7 +747,13 @@ void read_ntn_env_params(void) {
       v = (uint32_t) strtol(str, NULL, 10); \
       var = v; \
     } \
-    printf("NTN: Setting %s to value %u\n", name, var); \
+    if (!strcmp(name, "NTN_N_TA_COMMON")){ \
+      printf("NTN: Setting NTN_N_TA_COMMON to value %u\n", ntn_rtt_ms * 30720); \
+    } else if (!strcmp(name, "NTN_T_REASSEMBLY_TIMER_INCREMENT") || (!strcmp(name, "NTN_DISCARD_TIMER_INCREMENT")) || (!strcmp(name, "NTN_T_REORDERING_TIMER_INCREMENT"))){ \
+      } \
+    else { \
+      printf("NTN: Setting %s to value %u\n", name, var); \
+    } \
   } while (0);
 
   GET_VAR_FROM_ENV("NTN_RTT_MS", ntn_rtt_ms, 0);                      // [GAD] Total delay
@@ -771,12 +777,12 @@ static uint16_t read_koffset_from_env() {
   if (str != NULL) {
       uint16_t k = (uint16_t)strtol(str, NULL, 10);
       if (k <= 1023) {
-        printf("DCD setting Koffset = %d from NTN_KOFFSET environment variable\n", k);
+        // printf("DCD setting Koffset = %d from NTN_KOFFSET environment variable\n", k); // [QR]
         return k;
       }
       printf("DCD invalid requested Koffset value %s\n", str);
   }
-  printf("DCD using default Koffset value %d\n", DEFAULT_NTN_KOFFSET);
+  // printf("DCD using default Koffset value %d\n", DEFAULT_NTN_KOFFSET); // [QR]
   return DEFAULT_NTN_KOFFSET;
 }
 
@@ -791,6 +797,14 @@ int main(int argc, char* argv[])
   /* DCD parse Koffset */
   NTN_KOFFSET = read_koffset_from_env();
 
+
+  // ntn_rtt_ms = 0;
+  // ntn_n_ta_common = 0;
+  // ntn_n_ta_ue_specific = 0;
+  // ntn_extended_rtt_slots = 0;
+  // ntn_extended_rtt_ms = 0;
+  // NTN_KOFFSET = 0;
+  
   all_args_t args = {};
   if (int err = parse_args(&args, argc, argv)) {
     return err;

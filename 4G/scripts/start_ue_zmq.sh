@@ -16,9 +16,9 @@ echo "Running UE 5G NTN.."
 #Tm=$(bc <<< "scale=4; 8*$Tc")
 
 ## UTILIZZATI ##
-#export NTN_N_TA_COMMON=15974400
+#export NTN_N_TA_COMMON=0
 #export NTN_N_TA_UE_SPECIFIC=0
-#export NTN_EXT_RTT_SLOTS=260
+#export NTN_EXT_RTT_SLOTS=0
 #export NTN_EXT_RTT_MS=0
 #export NTN_RA_RESPONSE_WINDOW_TIMER_INCREMENT=560
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT=0
@@ -112,6 +112,4 @@ export NTN_RA_CONTENTION_RESOLUTION_TIMER_INCREMENT="$x"
 
 
 
-sudo -E ../build/srsue/src/srsue ue_1_config.conf
-#sudo -E /home/gadget1/Downloads/gadget_test/4G/build/srsue/src/srsue ue_config.conf
-       
+sudo -E ../build/srsue/src/srsue ue_zmq_config.conf

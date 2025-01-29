@@ -671,7 +671,7 @@ bool cc_worker::work_ul()
                     ul_slot_cfg.idx);
       }
     }
-    // printf("[GAD] MSG 3 TX at = %d\n", ul_slot_cfg.idx);
+    printf("[GAD] MSG 3 TX at = %d\n", ul_slot_cfg.idx);
 
     // Set metrics
     ul_metrics_t ul_m = {};

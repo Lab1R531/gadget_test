@@ -221,7 +221,7 @@ void ul_harq_entity_nr::ul_harq_process_nr::new_grant_ul(const mac_interface_phy
       logger.info("UL %d:  HARQ buffer empty. Ignoring grant.", pid);
       return;
     }
-    printf("[GAD] generate_retx(grant, action);\n");
+    // printf("[GAD] generate_retx(grant, action);\n");
     
     // 4> instruct the identified HARQ process to trigger a retransmission;
     generate_retx(grant, action);

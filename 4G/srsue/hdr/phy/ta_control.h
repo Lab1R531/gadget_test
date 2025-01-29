@@ -84,7 +84,7 @@ public:
     // Update base in nta
     next_base_nta = static_cast<uint32_t>(roundf(next_base_sec / SRSRAN_LTE_TS));
     printf("[GAD] set_base_sec. next_base_sec = %f, next_base_nta = %d\n", next_base_sec, next_base_nta);
-
+    
     // SW-MOD_A-30
     if (ntn_n_ta_common || ntn_n_ta_ue_specific || ntn_extended_rtt_slots) {
       // add n_ta common
@@ -150,12 +150,12 @@ public:
 
   void add_ta_offset(uint32_t ta_offset)
   {
-    printf("add_ta_offset (ta_offset = %d)\n", ta_offset);
+    // printf("add_ta_offset (ta_offset = %d)\n", ta_offset);
     std::lock_guard<std::mutex> lock(mutex);
 
     // Assuming numerology 0
     next_base_nta = ta_offset / 64;
-    printf("add_ta_offset (next_base_nta = %d)\n", next_base_nta);
+    // printf("add_ta_offset (next_base_nta = %d)\n", next_base_nta);
 
 
     // SW-MOD_A-30
@@ -174,7 +174,7 @@ public:
 
     // Update base in seconds
     next_base_sec = static_cast<float>(next_base_nta) * SRSRAN_LTE_TS;
-    printf("add_ta_offset (next_base_sec = %f)\n", next_base_sec);
+    // printf("add_ta_offset (next_base_sec = %f)\n", next_base_sec);
     // printf("[GAD] add_ta_offset. next_base_sec = %f, next_base_nta = %d\n", next_base_sec, next_base_nta);
 
     logger.info("PHY:   Set TA offset: n_ta_offset: %d, ta_usec: %.1f", next_base_nta, next_base_sec * 1e6f);
@@ -187,18 +187,19 @@ public:
    */
   void add_ta_cmd_rar(uint32_t tti, uint32_t ta_cmd)
   {
-    printf("add_ta_cmd_rar (tti = %d, ta_cmd = %d)\n", tti, ta_cmd);
+    // printf("add_ta_cmd_rar (tti = %d, ta_cmd = %d)\n", tti, ta_cmd);
     std::lock_guard<std::mutex> lock(mutex);
     // printf("[GAD] (add_ta_cmd_rar) next_base_nta += srsran_N_ta_new_rar(ta_cmd (%d))\n", ta_cmd);
     // Update base nta
     next_base_nta += srsran_N_ta_new_rar(ta_cmd);
-    printf("add_ta_cmd_rar (next_base_nta = %d)\n", next_base_nta);
+    // printf("add_ta_cmd_rar (next_base_nta = %d)\n", next_base_nta);
     
     // SW-MOD_A-30
     if (ntn_extended_rtt_slots) {
       next_base_nta = ntn_extended_rtt_slots; // SW-MOD_A-30
       printf("TA BASE SET NTA AFTER: %u\n", next_base_nta);
     }
+    
 
     //[GAD] ntn_n_ta_common missing
     // if (ntn_n_ta_common) {   
@@ -208,7 +209,7 @@ public:
 
     // Update base in seconds
     next_base_sec = static_cast<float>(next_base_nta) * SRSRAN_LTE_TS;
-    printf("add_ta_cmd_rar (next_base_sec = %f)\n", next_base_sec);
+    // printf("add_ta_cmd_rar (next_base_sec = %f)\n", next_base_sec);
     
     // Reset speed data
     reset_speed_data();
