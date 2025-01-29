@@ -61,9 +61,14 @@ int read_ntn_env_params(void) {
       v = (uint32_t) strtol(str, NULL, 10); \
       var = v; \
     } \
-    printf("NTN: Setting %s to value %u\n", name, var); \
+    if (!strcmp(name, "NTN_EXT_RTT_SLOTS")){ \
+      printf("NTN: Setting %s to value %u\n", name, NTN_KOFFSET); \
+    } else if (!strcmp(name, "NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT") || !strcmp(name, "NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT")){ \
+      printf("NTN: Setting %s to value %u\n", name, NTN_KOFFSET / 2); \
+    } \
   } while (0);
 
+  // printf("NTN: Setting %s to value %u\n", name, var);
   GET_VAR_FROM_ENV("NTN_EXT_RTT_SLOTS", ntn_extended_rtt_slots, 0);      // SW-MOD_A-50
 
   GET_VAR_FROM_ENV("NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT", ntn_ra_response_window_slot_start_increment, 0);  // SW-MOD_A-50
@@ -72,6 +77,13 @@ int read_ntn_env_params(void) {
   GET_VAR_FROM_ENV("NTN_DISCARD_TIMER_INCREMENT", ntn_discard_timer_increment, 0);                                  // SW-MOD_A-50
   GET_VAR_FROM_ENV("NTN_T_REORDERING_TIMER_INCREMENT", ntn_t_reordering_timer_increment, 0);                        // SW-MOD_A-50
 
+  // ntn_extended_rtt_slots = 0;
+  // ntn_ra_response_window_slot_start_increment = 0;
+  // ntn_ra_response_window_slot_length_increment = 0;
+  // ntn_t_reassembly_timer_increment = 0;
+  // ntn_discard_timer_increment = 0;
+  // ntn_t_reordering_timer_increment = 0;
+  
   return 1;
 }
 

@@ -247,7 +247,9 @@ void phy_to_fapi_results_event_translator::notify_rx_data_indication(const ul_pu
   builder.add_custom_pdu(handle, result.rnti, optional<unsigned>(), result.harq_id, result.payload);
 
   error_type<fapi::validator_report> validation_result = validate_rx_data_indication(msg);
+  
   if (!validation_result) {
+    printf("Validation result bad\n");
     log_validator_report(validation_result.error(), logger);
     return;
   }

@@ -31,10 +31,10 @@ done
 
 echo "Running gNB 5G NTN"
    
-#export NTN_N_TA_COMMON=0
+#export NTN_N_TA_COMMON=15974400
 
 #export NTN_N_TA_UE_SPECIFIC=0
-#export NTN_EXT_RTT_SLOTS=0
+#export NTN_EXT_RTT_SLOTS=260
 #export NTN_EXT_RTT_MS=0
 #export NTN_RA_RESPONSE_WINDOW_TIMER_INCREMENT=560
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT=0
@@ -107,7 +107,7 @@ y=$(echo "$rtt_ms / 2" | bc)
 
 export NTN_KOFFSET="$x"
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
-#export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
+export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT=521
 
 sudo -E ../build/apps/gnb/gnb -c gnb_config.yaml
 
