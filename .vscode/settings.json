@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "variant": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "sstream": "cpp",
+        "regex": "cpp",
+        "typeindex": "cpp",
+        "typeinfo": "cpp"
     }
 }

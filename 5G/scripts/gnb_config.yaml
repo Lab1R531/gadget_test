@@ -95,21 +95,37 @@ qos:
       rx:
         sn: 12
         t_reordering: 3000
-    
+
+#############################
+## Open5GS in deamons mode ##
+#############################
+#amf:
+#  addr: 127.0.0.5                                             # The address or hostname of the AMF.
+#  bind_addr: 127.0.0.10                                # A local IP that the gNB binds to for>
+
+#############################
+## Open5GS in docker mode  ##
+#############################
 amf:
-  addr: 127.0.0.5                                             # The address or hostname of the AMF.
-  bind_addr: 127.0.0.10                                # A local IP that the gNB binds to for>
+  addr: 10.53.1.2
+  port: 38412
+  bind_addr: 10.53.1.1
 
 rf_driver:
-  #time_alignment_calibration:
-  device_driver: uhd                                              # The RF driver name.
-  device_args: type=b200                                          # Optionally pass arguments to the selected RF driver.
+  ## UHD ##
+  #device_driver: uhd                                              # The RF driver name.
+  #device_args: type=b200                                          # Optionally pass arguments to the selected RF driver.
   #sync: external                                                  # Set sync to external. This set-up uses a LEO BODNAR GPDSO providing a 10 MHz ref.
-  clock: external
-  srate: 11.52
-                                                     # RF sample rate might need to be adjusted according to selected bandwidth.
-  tx_gain: 50                                                     # Transmit gain of the RF might need to adjusted to the given situation.
-  rx_gain: 10                                                  # Receive gain of the RF might need to adjusted to the given situation. 
+  #clock: external
+  #srate: 11.52
+
+  ## ZMQ ##
+  device_driver: zmq                                               # The RF driver name.
+  device_args: tx_port=tcp://127.0.0.1:2000,rx_port=tcp://127.0.0.1:2001,base_srate=11.52e6 # Optionally pass arguments to the selected RF driver.
+  srate: 11.52                                                     # RF sample rate might need to be adjusted according to selected bandwidth.
+                                                                   # RF sample rate might need to be adjusted according to selected bandwidth.
+  tx_gain: 50                                                      # Transmit gain of the RF might need to adjusted to the given situation.
+  rx_gain: 10                                                      # Receive gain of the RF might need to adjusted to the given situation. 
 
 cell_cfg:
   dl_arfcn: 368500                                                # ARFCN of the downlink carrier (center frequency).
@@ -120,7 +136,7 @@ cell_cfg:
   tac: 7                                                          # Tracking area code (needs to match the core configuration). 
   pdcch:
     ss_type: common                                            # Set search space to common to match capabilities
-  prach: 
+  prach:
     prach_config_index: 26
     zero_correlation_zone: 0
     max_msg3_harq_retx: 0

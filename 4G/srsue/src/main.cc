@@ -747,13 +747,7 @@ void read_ntn_env_params(void) {// [QR]
       v = (uint32_t) strtol(str, NULL, 10); \
       var = v; \
     } \
-    if (!strcmp(name, "NTN_N_TA_COMMON")){ \
-      printf("NTN: Setting NTN_N_TA_COMMON to value %u\n", ntn_rtt_ms * 30720); \
-    } else if (!strcmp(name, "NTN_T_REASSEMBLY_TIMER_INCREMENT") || (!strcmp(name, "NTN_DISCARD_TIMER_INCREMENT")) || (!strcmp(name, "NTN_T_REORDERING_TIMER_INCREMENT"))){ \
-      } \
-    else { \
-      printf("NTN: Setting %s to value %u\n", name, var); \
-    } \
+    printf("NTN: Setting %s to value %u\n", name, var); \
   } while (0);
 
   GET_VAR_FROM_ENV("NTN_RTT_MS", ntn_rtt_ms, 0);                      // [GAD] Total delay

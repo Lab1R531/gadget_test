@@ -12,11 +12,7 @@ sudo sysctl -w net.core.wmem_max=33554432
 sudo sysctl -w net.core.rmem_max=33554432
 sudo sysctl -w net.core.wmem_default=33554432
 sudo sysctl -w net.core.rmem_default=33554432
- 
-### RESTART OPEN5GS ###
-#sudo service open5gs-amfd restart
-#sudo service open5gs-upfd restart
-#sudo service open5gs-nrfd restart
+
 
 ### UNSET NTN VARIABLES ###
 for var in $(compgen -e | grep -E "^NTN_|^T_|^PDCP_T"); do
@@ -31,10 +27,10 @@ done
 
 echo "Running gNB 5G NTN"
    
-#export NTN_N_TA_COMMON=15974400
+#export NTN_N_TA_COMMON=0
 
 #export NTN_N_TA_UE_SPECIFIC=0
-#export NTN_EXT_RTT_SLOTS=260
+#export NTN_EXT_RTT_SLOTS=0
 #export NTN_EXT_RTT_MS=0
 #export NTN_RA_RESPONSE_WINDOW_TIMER_INCREMENT=560
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT=0
@@ -105,9 +101,9 @@ printf "**\n\n"
 x=$rtt_ms
 y=$(echo "$rtt_ms / 2" | bc)
 
-export NTN_KOFFSET="$x"
+#export NTN_KOFFSET="$x"
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
 #export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
 
-sudo -E ../build/apps/gnb/gnb -c gnb_config.yaml
+sudo -E ../build/apps/gnb/gnb -c gnb_zmq_config.yaml
 

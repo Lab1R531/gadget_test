@@ -61,11 +61,6 @@ int read_ntn_env_params(void) {
       v = (uint32_t) strtol(str, NULL, 10); \
       var = v; \
     } \
-    if (!strcmp(name, "NTN_EXT_RTT_SLOTS")){ \
-      printf("NTN: Setting %s to value %u\n", name, NTN_KOFFSET); \
-    } else if (!strcmp(name, "NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT") || !strcmp(name, "NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT")){ \
-      printf("NTN: Setting %s to value %u\n", name, NTN_KOFFSET / 2); \
-    } \
   } while (0);
 
   // printf("NTN: Setting %s to value %u\n", name, var);
