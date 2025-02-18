@@ -87,24 +87,23 @@ printf "**\n\n"
 x=$rtt_ms
 y=$(echo "$rtt_ms / 2" | bc)
 z=$(echo "$rtt_ms * 30720" | bc)
-w=$(echo "$rtt_ms * 30720 / 2" | bc)
 export NTN_RTT_MS="$x"
 
 
 # MSG 2 RX Window
 export NTN_RA_RESPONSE_WINDOW_TIMER_INCREMENT="$x"
-export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
+#export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
 export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
 
 # MSG 4 RX Window
 export NTN_RA_CONTENTION_RESOLUTION_TIMER_INCREMENT="$x"
 
 # TA COMMON SET
-export NTN_N_TA_COMMON="$z"
+#export NTN_N_TA_COMMON="$z"
 #export NTN_N_TA_UE_SPECIFIC=0
 #export NTN_EXT_RTT_SLOTS="$x"
 #export NTN_EXT_RTT_MS="$x"
-#export NTN_KOFFSET="$x" 
+export NTN_KOFFSET="$x" 
 
 
 

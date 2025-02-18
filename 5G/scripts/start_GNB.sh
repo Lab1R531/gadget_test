@@ -107,7 +107,7 @@ y=$(echo "$rtt_ms / 2" | bc)
 
 export NTN_KOFFSET="$x"
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
-#export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
+export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$x"
 
 sudo -E ../build/apps/gnb/gnb -c gnb_config.yaml
 

@@ -113,16 +113,16 @@ amf:
 
 rf_driver:
   ## UHD ##
-  #device_driver: uhd                                              # The RF driver name.
-  #device_args: type=b200                                          # Optionally pass arguments to the selected RF driver.
-  #sync: external                                                  # Set sync to external. This set-up uses a LEO BODNAR GPDSO providing a 10 MHz ref.
-  #clock: external
-  #srate: 11.52
+  device_driver: uhd                                              # The RF driver name.
+  device_args: type=b200                                          # Optionally pass arguments to the selected RF driver.
+  sync: external                                                  # Set sync to external. This set-up uses a LEO BODNAR GPDSO providing a 10 MHz ref.
+  clock: external
+  srate: 11.52
 
   ## ZMQ ##
-  device_driver: zmq                                               # The RF driver name.
-  device_args: tx_port=tcp://127.0.0.1:2000,rx_port=tcp://127.0.0.1:2001,base_srate=11.52e6 # Optionally pass arguments to the selected RF driver.
-  srate: 11.52                                                     # RF sample rate might need to be adjusted according to selected bandwidth.
+  #device_driver: zmq                                               # The RF driver name.
+  #device_args: tx_port=tcp://127.0.0.1:2000,rx_port=tcp://127.0.0.1:2001,base_srate=11.52e6 # Optionally pass arguments to the selected RF driver.
+  #srate: 11.52                                                     # RF sample rate might need to be adjusted according to selected bandwidth.
                                                                    # RF sample rate might need to be adjusted according to selected bandwidth.
   tx_gain: 50                                                      # Transmit gain of the RF might need to adjusted to the given situation.
   rx_gain: 10                                                      # Receive gain of the RF might need to adjusted to the given situation. 
@@ -137,7 +137,7 @@ cell_cfg:
   pdcch:
     ss_type: common                                            # Set search space to common to match capabilities
   prach:
-    prach_config_index: 26
+    prach_config_index: 1
     zero_correlation_zone: 0
     max_msg3_harq_retx: 0
 #  pdsch:
