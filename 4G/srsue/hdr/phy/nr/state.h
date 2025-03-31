@@ -127,7 +127,7 @@ public:
 
     /* DCD account for Koffset (k2 here) */
     // Calculate Transmit TTI
-    uint32_t tti_tx = TTI_ADD(slot_rx.idx, pusch_cfg.grant.k) // + NTN_KOFFSET); // [FR]: TODO Ho tolto NTN_Koffset in quato è sato già aggiunto in "common.h"
+    uint32_t tti_tx = TTI_ADD(slot_rx.idx, pusch_cfg.grant.k); // + NTN_KOFFSET); // [FR]: TODO Ho tolto NTN_Koffset in quato è sato già aggiunto in "common.h"
 
     // Scope mutex to protect read/write the list
     std::lock_guard<std::mutex> lock(pending_ul_grant_mutex);
@@ -253,7 +253,7 @@ public:
   {
     /* DCD account for Koffset */
     // Calculate Receive TTI
-    uint32_t tti_tx = TTI_ADD(tti_rx, ack_resource.k1) // + NTN_KOFFSET); // [FR]: TODO Ho tolto NTN_Koffset in quato è sato già aggiunto in "common.h"
+    uint32_t tti_tx = TTI_ADD(tti_rx, ack_resource.k1); // + NTN_KOFFSET); // [FR]: TODO Ho tolto NTN_Koffset in quato è sato già aggiunto in "common.h"
 
     // Prepare ACK information
     srsran_harq_ack_m_t ack_m = {};
