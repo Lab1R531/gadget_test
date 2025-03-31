@@ -100,8 +100,8 @@ qos:
 ## Open5GS in deamons mode ##
 #############################
 #amf:
-#  addr: 127.0.0.5                                             # The address or hostname of the AMF.
-#  bind_addr: 127.0.0.10                                # A local IP that the gNB binds to for>
+#  addr: 10.10.10.122 #127.0.0.5                                             # The address or hostname of the AMF.
+#  bind_addr: 10.10.10.121 #127.0.0.10                                # A local IP that the gNB binds to for>
 
 #############################
 ## Open5GS in docker mode  ##
@@ -124,8 +124,8 @@ rf_driver:
   #device_args: tx_port=tcp://127.0.0.1:2000,rx_port=tcp://127.0.0.1:2001,base_srate=11.52e6 # Optionally pass arguments to the selected RF driver.
   #srate: 11.52                                                     # RF sample rate might need to be adjusted according to selected bandwidth.
                                                                    # RF sample rate might need to be adjusted according to selected bandwidth.
-  tx_gain: 50                                                      # Transmit gain of the RF might need to adjusted to the given situation.
-  rx_gain: 10                                                      # Receive gain of the RF might need to adjusted to the given situation. 
+  tx_gain: 60                                                      # Transmit gain of the RF might need to adjusted to the given situation.
+  rx_gain: 20                                                      # Receive gain of the RF might need to adjusted to the given situation. 
 
 cell_cfg:
   dl_arfcn: 368500                                                # ARFCN of the downlink carrier (center frequency).
@@ -140,8 +140,9 @@ cell_cfg:
     prach_config_index: 1
     zero_correlation_zone: 0
     max_msg3_harq_retx: 0
-#  pdsch:
-#    nof_harqs: 16
+  pdsch:
+    min_ue_mcs: 9
+    max_ue_mcs: 9
 
 log:
   filename: /tmp/gnb.log                                          # Path of the log file.

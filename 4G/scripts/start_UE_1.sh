@@ -99,11 +99,11 @@ export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$y"
 export NTN_RA_CONTENTION_RESOLUTION_TIMER_INCREMENT="$x"
 
 # TA COMMON SET
-#export NTN_N_TA_COMMON="$z"
+#export NTN_N_TA_COMMON=550
 #export NTN_N_TA_UE_SPECIFIC=0
 #export NTN_EXT_RTT_SLOTS="$x"
-#export NTN_EXT_RTT_MS="$x"
-export NTN_KOFFSET="$x" 
+export NTN_EXT_RTT_MS="$x"
+export NTN_KOFFSET="$x"
 
 
 
@@ -112,5 +112,3 @@ export NTN_KOFFSET="$x"
 
 
 sudo -E ../build/srsue/src/srsue ue_1_config.conf
-#sudo -E /home/gadget1/Downloads/gadget_test/4G/build/srsue/src/srsue ue_config.conf
-       

@@ -5,6 +5,9 @@
         "sstream": "cpp",
         "regex": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "*.tcc": "cpp",
+        "string": "cpp",
+        "string_view": "cpp"
     }
 }

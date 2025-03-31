@@ -20,7 +20,7 @@ sudo sysctl -w net.core.rmem_default=33554432
 
 ### UNSET NTN VARIABLES ###
 for var in $(compgen -e | grep -E "^NTN_|^T_|^PDCP_T"); do
-    unset $var
+   unset $var
 done
 
 
@@ -108,6 +108,7 @@ y=$(echo "$rtt_ms / 2" | bc)
 export NTN_KOFFSET="$x"
 #export NTN_RA_RESPONSE_WINDOW_SLOT_START_INCREMENT="$y"
 export NTN_RA_RESPONSE_WINDOW_SLOT_LENGTH_INCREMENT="$x"
+export NTN_EXT_RTT_MS="$x"
 
 sudo -E ../build/apps/gnb/gnb -c gnb_config.yaml
 

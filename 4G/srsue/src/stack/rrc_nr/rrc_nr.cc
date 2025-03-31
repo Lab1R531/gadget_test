@@ -516,11 +516,14 @@ void rrc_nr::handle_sib1(const sib1_s& sib1)
   }
 
   phy_cfg_state = PHY_CFG_STATE_SA_SIB_CFG;
+  
+  phy_cfg.apply_t_offset = true; // apply t_offset only once, after SIB1, otherwise RAR TA will be cleared. // [FR] TODO da rimuovere
+  
   if (not phy->set_config(phy_cfg)) {
     logger.warning("Could not set phy config.");
     return;
   }
-
+  phy_cfg.apply_t_offset = false; // do not apply t_offset after RAR // [FR] TODO da rimuovere
   // Notify cell selector of successful SIB1 reception
   cell_selector.trigger(true);
 }

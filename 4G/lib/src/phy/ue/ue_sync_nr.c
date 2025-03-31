@@ -116,8 +116,9 @@ static void ue_sync_nr_apply_feedback(srsran_ue_sync_nr_t* q)
 
   // Update number of samples
   q->avg_delay_us          = q->feedback.delay_us;
-  q->next_rf_sample_offset = (uint32_t)round((double)q->avg_delay_us * (q->srate_hz * 1e-6));
-
+  //q->next_rf_sample_offset = (uint32_t)round((double)q->avg_delay_us * (q->srate_hz * 1e-6)); //[FR] TODO da decommentare
+  q->next_rf_sample_offset = (int32_t)round((double)q->avg_delay_us * (q->srate_hz * 1e-6));   // [FR] TODO da cancellare
+  
   // Integrate CFO
   if (q->disable_cfo) {
     q->cfo_hz = SRSRAN_VEC_SAFE_EMA(q->feedback.cfo_hz, q->cfo_hz, q->cfo_alpha);

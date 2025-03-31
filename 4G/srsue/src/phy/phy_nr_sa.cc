@@ -267,8 +267,11 @@ bool phy_nr_sa::set_config(const srsran::phy_cfg_nr_t& cfg)
     bool ret = workers.set_config(config_nr);
 
     // Pass n_ta_offset to sync
-    sync.add_ta_offset(config_nr.t_offset);
-
+    if (config_nr.apply_t_offset) {          // [FR] TODO da cancellare
+      sync.add_ta_offset(config_nr.t_offset);// [FR] TODO da cancellare
+    }                                        // [FR] TODO da cancellare
+    //sync.add_ta_offset(config_nr.t_offset);// [FR] TODO da decommentare
+    
     // Notify PHY config completion
     if (stack != nullptr) {
       stack->set_phy_config_complete(ret);

@@ -102,7 +102,6 @@ void fapi_to_mac_data_msg_translator::on_rx_data_indication(const fapi::rx_data_
   for (const auto& fapi_pdu : msg.pdus) {
     // PDUs that were not successfully decoded have zero length.
     if (fapi_pdu.pdu_length == 0) {
-      printf("PDU not decoded\n");
       continue;
     }
 

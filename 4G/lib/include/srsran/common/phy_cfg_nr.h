@@ -55,6 +55,7 @@ struct phy_cfg_nr_t {
   srsran_csi_hl_cfg_t       csi      = {};
   srsran_carrier_nr_t       carrier  = {};
   ssb_cfg_t                 ssb      = {};
+  bool                      apply_t_offset = false;  // [FR] TODO Da cancellare
   uint32_t                  t_offset = 0; ///< n-TimingAdvanceOffset
 
   phy_cfg_nr_t() {}
